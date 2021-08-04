@@ -118,14 +118,13 @@ function up() {
 function gre_up() {
   # Create GRE tunnel
   ip tunnel add "$tun_if" mode gre local "$local_ip" remote "$remote_ip" ttl 255
-
   if [[ $greipv6 == "true" ]]; then
     ip tunnel add "$tun_if" mode ip6gre local "$local_ip" remote "$remote_ip" ttl 255
   fi
 
   # Create tunnel network
   ip addr add "$tun_local_addr" dev "$tun_if"
-  if [[ $ipv6 == "true" ]]; then
+  if [[ $ipv6 == "true" ]]; then
     ip -6 addr add "$tun_local_addr6" dev "$tun_if"
   fi
   ip link set dev "$tun_if" mtu "$tun_mtu"
@@ -133,7 +132,7 @@ function gre_up() {
 
   # Add Route for tunnel network
   ip route add "$tun_remote_addr" dev "$tun_if"
-  if [[ $ipv6 == "true" ]]; then
+  if [[ $ipv6 == "true" ]]; then
     ip -6 route add "$tun_remote_addr6" dev "$tun_if"
   fi
 
